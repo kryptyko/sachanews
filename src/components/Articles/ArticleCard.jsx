@@ -17,7 +17,7 @@ const ArticlesCard = ({ article }) => {
             </div>
             <div className="content">
               {article.abstract || article.content.substring(0, 100)}...
-              <a href={`/articles/${article.id}`} target="_blank" rel="noopener noreferrer" className="read-more">
+              <a href={`/articles/${article.id}`} /*target="_blank"*/ rel="noopener noreferrer" className="read-more">
               Leer más
             </a>
             </div>

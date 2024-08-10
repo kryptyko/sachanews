@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function ArticleForm() {
     const [articleData, setArticleData] = useState({ title: "", content: "" });
@@ -8,7 +9,7 @@ export default function ArticleForm() {
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [articleImage, setArticleImage] = useState(null);
-
+    const navigate = useNavigate();
     const state = useAuth("state");
     const token = state.token;
     console.log("state", state);
@@ -178,6 +179,9 @@ export default function ArticleForm() {
                         className="button is-primary"
                         type="submit"
                         disabled={submitting || loadingCategories}
+                        // onClick={
+                        //     navigate("/articles")
+                        // }
                     >
                         Crear Artículo
                     </button>
