@@ -10,7 +10,7 @@ export default function CategoryArticles() {
     const [articles, setArticles] = useState([]);
     const [categoryDescription, setCategoryDescription] = useState('');
     const [categoryName, setCategoryName] = useState('');
-    const {first_name} =useAuth("state");
+    const {first_name, user__id} =useAuth("state");
 
 
     useEffect(() => {
