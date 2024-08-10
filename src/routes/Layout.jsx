@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { AuthProvider } from "../contexts/AuthContext";
 import { ThemeProvider } from "@teishi/bulma_theme";
+import Navbar from "../components/Navbar/Navbar";
 
 export default function Layout() {
     return (
@@ -10,6 +11,7 @@ export default function Layout() {
             >
                 <ThemeProvider>
                     <Outlet />
+                    
                 </ThemeProvider>
             </div>
         </AuthProvider>
