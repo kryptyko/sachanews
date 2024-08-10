@@ -2,14 +2,20 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
+import { useAuth } from '../../contexts/AuthContext';
 
 
-function ArticlesDeploy() {
+function ArticlesDeploy(onDelete) {
     const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-   
+
+    const state = useAuth("state");
+    const token = state.token;
+    console.log(state.user__id);
+    console.log(article.author);
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
             .then((response) => {
@@ -36,6 +42,25 @@ function ArticlesDeploy() {
     if (isError) {
         return <p>Error al cargar la noticia</p>;
     }
+
+    const handleDelete = () => {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("No se pudo eliminar el Artículo")
+            }
+            onDelete(article.id);
+        })
+        .catch((error) => {
+            console.error("Error al eliminar", error);
+        });
+    };
 
 //     return (
 //         <div>
@@ -97,6 +122,13 @@ return (
                     </p>
                 </div>
             </div>
+            
+                {state.isAuthenticated && article.author === state.user__id && (
+                    <button className="button is-succes" onClick={handleDelete}>
+                        Eliminar
+                    </button>
+                )}
+            
         </div>
     </div>
 );
