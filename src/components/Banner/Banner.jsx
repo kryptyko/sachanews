@@ -21,14 +21,20 @@
 import './Banner.css';
 import { Link } from 'react-router-dom';
 import SachaNEWSSvg from '../../assets/sachanews.svg';
+import { useAuth } from '../../contexts/AuthContext';
 
 const Banner = () => {
+  const { isAuthenticated } = useAuth("state");
+  //const {first_name} =useAuth("state");
+//  console.log( first_name)
+  console.log( isAuthenticated)
   return (
     <>
       <div className="has-text-centered">
         <Link to="/">
           <div className="title has-text-primary">
             <img src={SachaNEWSSvg} alt="SachaNEWS Logo" className="logo-image" />
+            <div> {isAuthenticated}</div>
           </div>
         </Link>
       </div>

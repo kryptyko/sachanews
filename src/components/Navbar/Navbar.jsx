@@ -1,40 +1,73 @@
+import { useState, useEffect } from "react";
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
-const Navbar = () => {
-  return (
-    <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
-      <div className="navbar-brand">
-        
-        <a
-          role="button"
-          className="navbar-burger"
-          aria-label="menu"
-          aria-expanded="false"
-          data-target="navbarBasicExample"
-        >
-          <span aria-hidden="true"></span> 
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
 
-      <div id="navbarBasicExample" className="navbar-menu">
-        <div className="navbar-start">
-          <a className="navbar-item" href="/">
-            Inicio
-          </a>
-          <a className="navbar-item" href="/contacto">
-            Contacto
-          </a>
-          <a className="navbar-item" href="/login">
-            Login
-          </a>
-          <a className="navbar-item" href="/register">
-            Registrarse
-          </a>
-        </div>
-      </div>
-    </nav>
+export default function Navbar() {
+    const [categories, setCategories] = useState([]);
+    const { isAuthenticated} = useAuth("state");
+    const { logout } = useAuth("actions");
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchCategories = async () => {
+            try {
+                const response = await fetch("https://sandbox.academiadevelopers.com/infosphere/categories/");
+                const data = await response.json();
+                setCategories(data.results);
+            } catch (error) {
+                console.error("Error fetching categories:", error);
+            }
+        };
+
+        fetchCategories();
+    }, []);
+
+    //intento de poner el boton condicional
+    // const handleLoginLogout = () => {
+    //     if (isAuthenticated) {
+    //         logout();
+    //         navigate("/login"); // Redirige al usuario al iniciar sesión
+    //     } else {
+    //         navigate("/login");
+    //     }
+    // };
+    return (
+      <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+              <a className="navbar-item has-text-warning" href="/">Inicio</a>
+              <a role="button" className="navbar-burger" aria-label="menu" aria-expanded="false">
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+                  <span aria-hidden="true"></span>
+              </a>
+          </div>
+
+          <div className="navbar-menu">
+              <div className="navbar-start">
+                  {categories.map(category => (
+                      <a key={category.id} className="navbar-item has-text-white" href={`/category/${category.id}`}>
+                          {category.name}
+                      </a>
+                  ))}
+              </div>
+              <div className="navbar-end">
+                  <div className="navbar-item">
+                      <button className="button is-warning" onClick={
+                        isAuthenticated
+                            ? () => {
+                                  logout();
+                              }
+                            : () => {
+                                  navigate("/login");
+                              }
+                    }
+                >
+                    {isAuthenticated ? "Cerrar sesión" : "Iniciar Sesión"}
+                </button>
+                  </div>
+              </div>
+          </div>
+      </nav>
   );
-};
-
-export default Navbar;
+}
