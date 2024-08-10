@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
 import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
 function ArticlesDeploy(onDelete) {
@@ -10,7 +11,7 @@ function ArticlesDeploy(onDelete) {
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-
+    const navigate = useNavigate();
     const state = useAuth("state");
     const token = state.token;
     
@@ -124,9 +125,16 @@ return (
             </div>
             
             {article.author == state.user__id ? (
-                <button className="button is-success" onClick={handleDelete}>
+                <>
+                <button className="button is-success" onClick={() => {
+                    handleDelete();
+                    window.alert('Artículo eliminado');
+                    navigate("/articles");
+                }}>
                     Eliminar
                 </button>
+             </>
+            
             ) : null} 
             
         </div>
