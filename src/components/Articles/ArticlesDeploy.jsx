@@ -13,8 +13,7 @@ function ArticlesDeploy(onDelete) {
 
     const state = useAuth("state");
     const token = state.token;
-    console.log(state.user__id);
-    console.log(article.author);
+    
 
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
@@ -87,7 +86,8 @@ const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
     year: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-});
+});  
+   
 return (
     <div className="container my-6">
         <Banner/>
@@ -123,15 +123,18 @@ return (
                 </div>
             </div>
             
-                {state.isAuthenticated && article.author === state.user__id && (
-                    <button className="button is-succes" onClick={handleDelete}>
-                        Eliminar
-                    </button>
-                )}
+            {article.author == state.user__id ? (
+                <button className="button is-success" onClick={handleDelete}>
+                    Eliminar
+                </button>
+            ) : null} 
             
         </div>
+        
     </div>
+ 
 );
+
 }
 
 export default ArticlesDeploy;
