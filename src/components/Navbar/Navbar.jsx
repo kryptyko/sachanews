@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 export default function Navbar() {
     const [categories, setCategories] = useState([]);
     const { isAuthenticated} = useAuth("state");
+    console.log(isAuthenticated);
     const { logout } = useAuth("actions");
     const navigate = useNavigate();
 
@@ -57,6 +58,8 @@ export default function Navbar() {
                         isAuthenticated
                             ? () => {
                                   logout();
+                                  window.alert('¡Se ha cerrado secion correctamente!');
+                                  
                               }
                             : () => {
                                   navigate("/login");
