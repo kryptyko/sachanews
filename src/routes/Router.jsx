@@ -9,6 +9,7 @@ import ArticleList from "../components/Articles/ArticleList";
 import ArticlesDeploy from "../components/Articles/ArticlesDeploy";
 import NotFound from "../components/NotFound/NotFound";
 import CategoryArticles from "../components/Articles/CategoryArticles";
+import EditArticleForm from "../components/EditArticleForm";
 // import ArticleDetail from "../components/ArticleDetail/ArticleDetail";
 
 
@@ -37,6 +38,14 @@ const Router = createBrowserRouter([
                         element: (
                             <ProtectedRoute>
                                 <ArticleForm />
+                            </ProtectedRoute>
+                        ),
+                    },
+                    {
+                        path: "change/:id",
+                        element: (
+                            <ProtectedRoute>
+                                <EditArticleForm />
                             </ProtectedRoute>
                         ),
                     },
