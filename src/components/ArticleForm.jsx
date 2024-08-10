@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
+import Navbar from './Navbar/Navbar';
+import Banner from './Banner/Banner';
 
 export default function ArticleForm() {
     const [articleData, setArticleData] = useState({ title: "", content: "" });
@@ -117,6 +119,9 @@ export default function ArticleForm() {
     }
 
     return (
+        <div className="container">
+        <Banner />
+        <Navbar />
         <form
             className={`box m-4 p-4 has-background-dark`}
             onSubmit={handleSubmit}
@@ -184,5 +189,6 @@ export default function ArticleForm() {
                 </div>
             </div>
         </form>
+    </div>
     );
 }
