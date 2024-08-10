@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import ArticleForm from "../components/ArticleForm";
-import Home from "../components/Home/Home";
+//import Home from "../components/Home/Home";
 import Login from "../components/Auth/Login";
 import Layout from "./Layout";
 import ProtectedRoute from "./ProtectedRoute";
@@ -10,7 +10,7 @@ import ArticlesDeploy from "../components/Articles/ArticlesDeploy";
 import NotFound from "../components/NotFound/NotFound";
 import CategoryArticles from "../components/Articles/CategoryArticles";
 // import ArticleDetail from "../components/ArticleDetail/ArticleDetail";
-//import SongList from "../components/MusicPlayer/SongList";
+
 
 const Router = createBrowserRouter([
     {

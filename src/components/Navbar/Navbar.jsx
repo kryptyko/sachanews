@@ -22,14 +22,16 @@ export default function Navbar() {
 
         fetchCategories();
     }, []);
-    const handleLoginLogout = () => {
-        if (isAuthenticated) {
-            logout();
-            navigate("/login"); // Redirige al usuario al iniciar sesión
-        } else {
-            navigate("/login");
-        }
-    };
+
+    //intento de poner el boton condicional
+    // const handleLoginLogout = () => {
+    //     if (isAuthenticated) {
+    //         logout();
+    //         navigate("/login"); // Redirige al usuario al iniciar sesión
+    //     } else {
+    //         navigate("/login");
+    //     }
+    // };
     return (
       <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">

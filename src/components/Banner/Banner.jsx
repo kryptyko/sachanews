@@ -25,6 +25,8 @@ import { useAuth } from '../../contexts/AuthContext';
 
 const Banner = () => {
   const { isAuthenticated } = useAuth("state");
+  //const {first_name} =useAuth("state");
+//  console.log( first_name)
   console.log( isAuthenticated)
   return (
     <>

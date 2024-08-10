@@ -53,9 +53,10 @@ function Login() {
                                 }
                                 return profileResponse.json();
                             })
-                            .then((profileData) =>
-                                login(responseData.token, profileData.user__id)
-                            )
+                            .then((profileData) =>{
+                                console.log(`User ${profileData.first_name}`);
+                                login(responseData.token, profileData.user__id,profileData.first_name);
+                    })
                             .catch((error) => {
                                 console.error(
                                     "Error al obtener id de usuario",

@@ -3,15 +3,20 @@ import { useParams } from "react-router-dom";
 import Banner from "../Banner/Banner";
 import Navbar from "../Navbar/Navbar";
 import ArticlesCard from "./ArticleCard";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function CategoryArticles() {
     const { id } = useParams();
     const [articles, setArticles] = useState([]);
     const [categoryDescription, setCategoryDescription] = useState('');
     const [categoryName, setCategoryName] = useState('');
+    const {first_name} =useAuth("state");
+
 
     useEffect(() => {
+        
         const fetchArticles = async () => {
+            //console.log( first_name)
             try {
                 // hago un fetch para obtener la descripción de la categoria
                 const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/categories/${id}`);
@@ -43,7 +48,7 @@ return (
         <div className="columns is-multiline">
             <div className="column is-12">
                 {/* <h1>{categoryDescription}</h1> */}
-                <h1>Ud esta en la seccion {categoryName}</h1>
+                <h1>{first_name} estas en la categoria {categoryName} </h1>
             </div>
             {articles.map(article => (
                 <div className="column is-4" key={article.id}>
