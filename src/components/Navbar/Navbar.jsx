@@ -1,13 +1,7 @@
 import { useState, useEffect } from "react";
-import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-
 
 export default function Navbar() {
     const [categories, setCategories] = useState([]);
-    const { isAuthenticated} = useAuth("state");
-    const { logout } = useAuth("actions");
-    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategories = async () => {
@@ -22,14 +16,7 @@ export default function Navbar() {
 
         fetchCategories();
     }, []);
-    const handleLoginLogout = () => {
-        if (isAuthenticated) {
-            logout();
-            navigate("/login"); // Redirige al usuario al iniciar sesión
-        } else {
-            navigate("/login");
-        }
-    };
+
     return (
       <nav className="navbar is-dark" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
@@ -48,22 +35,6 @@ export default function Navbar() {
                           {category.name}
                       </a>
                   ))}
-              </div>
-              <div className="navbar-end">
-                  <div className="navbar-item">
-                      <button className="button is-warning" onClick={
-                        isAuthenticated
-                            ? () => {
-                                  logout();
-                              }
-                            : () => {
-                                  navigate("/login");
-                              }
-                    }
-                >
-                    {isAuthenticated ? "Cerrar sesión" : "Iniciar Sesión"}
-                </button>
-                  </div>
               </div>
           </div>
       </nav>
