@@ -133,6 +133,11 @@ return (
                 }}>
                     Eliminar
                 </button>
+                {/* <button className="button is-success" onClick={
+                    navigate(`/articles/change/${article.id}`)
+                }>
+                    Modificar
+                </button> */}
              </>
             
             ) : null} 
