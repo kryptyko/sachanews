@@ -2,14 +2,20 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
+import { useAuth } from '../../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 
-function ArticlesDeploy() {
+function ArticlesDeploy(onDelete) {
     const { id } = useParams();
     const [article, setArticle] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
-   
+    const navigate = useNavigate();
+    const state = useAuth("state");
+    const token = state.token;
+    
+
     useEffect(() => {
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
             .then((response) => {
@@ -37,6 +43,25 @@ function ArticlesDeploy() {
         return <p>Error al cargar la noticia</p>;
     }
 
+    const handleDelete = () => {
+        fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+        
+        })
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error("No se pudo eliminar el Artículo")
+            }
+            onDelete(article.id);
+        })
+        .catch((error) => {
+            console.error("Error al eliminar", error);
+        });
+    };
+
 //     return (
 //         <div>
 //             <Banner/>
@@ -62,7 +87,8 @@ const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
     year: 'numeric',
     hour: 'numeric',
     minute: 'numeric',
-});
+});  
+   
 return (
     <div className="container my-6">
         <Banner/>
@@ -97,9 +123,26 @@ return (
                     </p>
                 </div>
             </div>
+            
+            {article.author == state.user__id ? (
+                <>
+                <button className="button is-success" onClick={() => {
+                    handleDelete();
+                    window.alert('Artículo eliminado');
+                    navigate("/articles");
+                }}>
+                    Eliminar
+                </button>
+             </>
+            
+            ) : null} 
+            
         </div>
+        
     </div>
+ 
 );
+
 }
 
 export default ArticlesDeploy;
