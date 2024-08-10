@@ -8,6 +8,7 @@ import Profile from "../components/Profile";
 import ArticleList from "../components/Articles/ArticleList";
 import ArticlesDeploy from "../components/Articles/ArticlesDeploy";
 import NotFound from "../components/NotFound/NotFound";
+import CategoryArticles from "../components/Articles/CategoryArticles";
 // import ArticleDetail from "../components/ArticleDetail/ArticleDetail";
 //import SongList from "../components/MusicPlayer/SongList";
 
@@ -46,8 +47,10 @@ const Router = createBrowserRouter([
                 element: <Login />,
             },
             {
-                //path: "songs",
-                //element: <SongList />,
+            
+                    path: "category/:id",
+                    element: <CategoryArticles />,
+            
             },
             {
                 path: "profile",
