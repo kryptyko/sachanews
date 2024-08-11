@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useParams } from "react-router-dom"; 
-import Navbar from './Navbar/Navbar';
-import Banner from './Banner/Banner';
+// import Navbar from './Navbar/Navbar';
+// import Banner from './Banner/Banner';
 import { useNavigate } from "react-router-dom";
 
 export default function EditArticleForm() {
@@ -143,8 +143,8 @@ export default function EditArticleForm() {
 
     return (
         <div className="container">
-            <Banner />
-            <Navbar />
+            {/* <Banner />
+            <Navbar /> */}
             <form
                 className={`box m-4 p-4 has-background-dark`}
                 onSubmit={handleSubmit}

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Navbar from '../Navbar/Navbar';
-import Banner from '../Banner/Banner';
+// import Navbar from '../Navbar/Navbar';
+// import Banner from '../Banner/Banner';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { Margin } from '@mui/icons-material';
@@ -92,8 +92,8 @@ const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
    
 return (
     <div className="container my-6">
-        <Banner/>
-        <Navbar/>
+        {/* <Banner/>
+        <Navbar/> */}
         <div className="box">
         <h1 className="title">{article.title}</h1>
             
