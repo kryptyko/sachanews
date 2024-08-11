@@ -3,7 +3,7 @@ import { AuthProvider } from "../contexts/AuthContext";
 import { ThemeProvider } from "@teishi/bulma_theme";
 import Navbar from "../components/Navbar/Navbar";
 import Banner from "../components/Banner/Banner";
-
+import Footer from "../components/Footer/Footer";
 export default function Layout() {
     return (
         <AuthProvider>
@@ -17,6 +17,7 @@ export default function Layout() {
                     
                 </ThemeProvider>
             </div>
+            <Footer/>
         </AuthProvider>
     );
 }
