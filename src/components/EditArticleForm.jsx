@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { useParams } from "react-router-dom"; // Para obtener el ID del artículo desde la URL
+import { useParams } from "react-router-dom"; 
 import Navbar from './Navbar/Navbar';
 import Banner from './Banner/Banner';
 import { useNavigate } from "react-router-dom";
@@ -16,7 +16,7 @@ export default function EditArticleForm() {
     
     const navigate = useNavigate();
 
-    const { id } = useParams(); // Obtiene el ID del artículo desde la URL
+    const { id } = useParams(); 
     const state = useAuth("state");
     const token = state.token;
 
@@ -128,6 +128,8 @@ export default function EditArticleForm() {
                             }),
                         });
                     });
+                    window.alert('¡Artículo actualizado exitosamente!');
+                    navigate('/'); // Redirige a la página principal después de la actualización
                 })
                 .catch((error) => {
                     console.error("Error al actualizar el artículo", error);
@@ -203,11 +205,7 @@ export default function EditArticleForm() {
                         <button
                             className="button is-primary"
                             type="submit"
-                            disabled={submitting || loadingCategories || loadingArticle} onClick = {()=>{
-                                window.alert('Articulo modificado');
-                                navigate("/articles");
-                            }
-                        }
+                            disabled={submitting || loadingCategories || loadingArticle} 
                         >
                             Actualizar Artículo
                         </button>
