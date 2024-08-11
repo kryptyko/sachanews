@@ -47,7 +47,7 @@ export default function Navbar() {
                   Nueva Noticia
                 </a>
               )}
-              <div className="navbar-item">
+              {/* <div className="navbar-item">
                 <button className="button is-warning" onClick={
                   isAuthenticated
                     ? () => {
@@ -61,7 +61,7 @@ export default function Navbar() {
                 }>
                   {isAuthenticated ? "Cerrar sesión" : "Iniciar Sesión"}
                 </button>
-              </div>
+              </div> */}
             </div>
           </div>
         </nav>
