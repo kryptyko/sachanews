@@ -9,10 +9,10 @@ function ArticlesDeploy(onDelete) {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
-    const { token, user_id } = useAuth("state");
+    const { token, user__id } = useAuth("state");
 
     useEffect(() => {
-        // Fetch the article details
+        // Fetch artículos
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
             .then((response) => {
                 if (!response.ok) {
@@ -22,6 +22,7 @@ function ArticlesDeploy(onDelete) {
             })
             .then((data) => {
                 setArticle(data);
+                // obtener autor
                 return fetch(`${import.meta.env.VITE_API_BASE_URL}users/profiles/${data.author}/`, {
                     headers: {
                         Authorization: `Token ${token}`,
@@ -30,7 +31,7 @@ function ArticlesDeploy(onDelete) {
             })
             .then((response) => {
                 if (!response.ok) {
-                    throw new Error("No se pudo cargar los datos del autor");
+                    throw new Error("No se pudieron cargar los datos del autor");
                 }
                 return response.json();
             })
@@ -43,7 +44,7 @@ function ArticlesDeploy(onDelete) {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [id, token]);
+    }, [id]);
 
     if (isLoading) {
         return <p>Cargando...</p>;
@@ -78,7 +79,8 @@ function ArticlesDeploy(onDelete) {
         hour: 'numeric',
         minute: 'numeric',
     });
-
+    console.log(`Autor: ${article.author}`)
+    console.log(`Usuario: ${user__id}`)
     return (
         <div className="container my-6">
             <div className="box">
@@ -92,7 +94,7 @@ function ArticlesDeploy(onDelete) {
                         {authorDetails && (
                             <div className="level-item">
                                 <p>{`Autor: ${authorDetails.first_name} ${authorDetails.last_name}`}</p>
-                                {/* Agrega más campos según lo necesario */}
+                                
                             </div>
                         )}
                     </div>
@@ -115,7 +117,7 @@ function ArticlesDeploy(onDelete) {
                     </div>
                 </div>
                 
-                {article.author == user_id ? (
+                {article.author == user__id ? (
                     <>
                         <button className="button is-success" onClick={(e) => {
                             e.preventDefault();
@@ -141,141 +143,3 @@ function ArticlesDeploy(onDelete) {
 
 export default ArticlesDeploy;
 
-// import { useEffect, useState } from 'react';
-// import { useParams } from 'react-router-dom';
-// // import Navbar from '../Navbar/Navbar';
-// // import Banner from '../Banner/Banner';
-// import { useAuth } from '../../contexts/AuthContext';
-// import { useNavigate } from 'react-router-dom';
-// import { Margin } from '@mui/icons-material';
-
-
-// function ArticlesDeploy(onDelete) {
-//     const { id } = useParams();
-//     const [article, setArticle] = useState(null);
-//     const [isLoading, setIsLoading] = useState(true);
-//     const [isError, setIsError] = useState(false);
-//     const navigate = useNavigate();
-//     const state = useAuth("state");
-//     const token = state.token;
-    
-
-//     useEffect(() => {
-//         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
-//             .then((response) => {
-//                 if (!response.ok) {
-//                     throw new Error("No se pudo cargar la noticia");
-//                 }
-//                 return response.json();
-//             })
-//             .then((data) => {
-//                 setArticle(data);                          
-//             })
-//             .catch(() => {
-//                 setIsError(true);
-//             })
-//             .finally(() => {
-//                 setIsLoading(false);
-//             });
-//     }, [id]);
-
-//     if (isLoading) {
-//         return <p>Cargando...</p>;
-//     }
-
-//     if (isError) {
-//         return <p>Error al cargar la noticia</p>;
-//     }
-
-//     const handleDelete = () => {
-//         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`, {
-//             method: "DELETE",
-//             headers: {
-//                 Authorization: `Token ${token}`,
-//             },
-        
-//         })
-//         .then((response) => {
-//             if (!response.ok) {
-//                 throw new Error("No se pudo eliminar el Artículo")
-//             }
-//             onDelete(article.id);
-//         })
-//         .catch((error) => {
-//             console.error("Error al eliminar", error);
-//         });
-//     };
-
-// const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
-//     day: 'numeric',
-//     month: 'long',
-//     year: 'numeric',
-//     hour: 'numeric',
-//     minute: 'numeric',
-// });  
-   
-// return (
-//     <div className="container my-6">
-//         {/* <Banner/>
-//         <Navbar/> */}
-//         <div className="box">
-//         <h1 className="title">{article.title}</h1>
-//            <p className="subtitle is-6 mb-4">{article.abstract}</p>
-//             <div className="level">
-//                 <div className="level-left">
-//                     <p className="level-item">Actualizado: {formattedDate}</p>
-//                 </div>
-//                 <div className="level-right">
-//                     <p className="level-item">Autor: {article.author}</p>
-//                 </div>
-//             </div>
-//             {article.image && <img src={article.image} alt={article.caption} className="mb-4" />}
-//             <div className="content">
-//                 {article.content}
-//             </div>
-//             {article.image && <p className="has-text-grey-light has-text-right">{article.caption}</p>} {/*si no tiene imagen no rendirza el article.caption */}
-//             <div className="level">
-//                 <div className="level-right">
-//                     <p className="level-item">
-//                         <span className="icon-text">
-//                             <span className="icon">
-//                                 <i className="fas fa-eye"></i>
-//                             </span>
-//                             <span>Visitas: {article.view_count}</span>
-//                         </span>
-//                     </p>
-//                 </div>
-//             </div>
-            
-//             {article.author == state.user__id ? (
-//                 <>
-//                 <button className="button is-success" onClick={(e) => {
-//                     e.preventDefault();
-//                     handleDelete();
-//                     window.alert('Artículo eliminado');
-//                     navigate("/articles");
-//                 }} style={{marginRight: '20px'}}>
-//                     Eliminar
-//                 </button>
-                    
-//                 <button className="button is-success" onClick={(e) => {
-//                     e.preventDefault();
-                    
-//                     navigate(`/articles/change/${article.id}`);
-//                 }
-//                 }>
-//                     Modificar
-//                 </button>
-//              </>
-            
-//             ) : null} 
-            
-//         </div>
-        
-//     </div>
- 
-// );
-
-// }
-
-// export default ArticlesDeploy;
