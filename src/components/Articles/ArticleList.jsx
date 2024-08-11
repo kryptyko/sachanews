@@ -1,8 +1,8 @@
 
 
 import { useEffect, useState } from 'react';
-import Navbar from '../Navbar/Navbar';
-import Banner from '../Banner/Banner';
+// import Navbar from '../Navbar/Navbar';
+// import Banner from '../Banner/Banner';
 import ArticlesCard from './ArticleCard';
 
 const ArticleList = () => {
@@ -53,8 +53,8 @@ const ArticleList = () => {
 
     return (
         <div className="container">
-            <Banner />
-            <Navbar />
+            {/* <Banner />
+            <Navbar /> */}
             <div className="columns is-multiline">
                 {articles.map((article) => (
                     <div className="column is-4" key={article.id}>

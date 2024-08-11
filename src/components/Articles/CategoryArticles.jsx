@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import Banner from "../Banner/Banner";
-import Navbar from "../Navbar/Navbar";
+// import Banner from "../Banner/Banner";
+// import Navbar from "../Navbar/Navbar";
 import ArticlesCard from "./ArticleCard";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -43,8 +43,8 @@ export default function CategoryArticles() {
 
 return (
     <div className="container">
-        <Banner />
-        <Navbar />
+        {/* <Banner />
+        <Navbar /> */}
         <div className="columns is-multiline">
             <div className="column is-12">
                 {/* <h1>{categoryDescription}</h1> */}
