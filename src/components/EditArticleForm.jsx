@@ -137,7 +137,7 @@ export default function EditArticleForm() {
                 .finally(() => {
                     setSubmitting(false);
                 });
-                window.alert('¡Artículo actualizado exitosamente!');
+                
         }
     }
 
