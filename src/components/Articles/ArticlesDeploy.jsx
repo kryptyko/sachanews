@@ -4,6 +4,7 @@ import Navbar from '../Navbar/Navbar';
 import Banner from '../Banner/Banner';
 import { useAuth } from '../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import { Margin } from '@mui/icons-material';
 
 
 function ArticlesDeploy(onDelete) {
@@ -126,18 +127,23 @@ return (
             
             {article.author == state.user__id ? (
                 <>
-                <button className="button is-success" onClick={() => {
+                <button className="button is-success" onClick={(e) => {
+                    e.preventDefault();
                     handleDelete();
                     window.alert('Artículo eliminado');
                     navigate("/articles");
-                }}>
+                }} style={{marginRight: '20px'}}>
                     Eliminar
                 </button>
-                {/* <button className="button is-success" onClick={
-                    navigate(`/articles/change/${article.id}`)
+                    
+                <button className="button is-success" onClick={(e) => {
+                    e.preventDefault();
+                    
+                    navigate(`/articles/change/${article.id}`);
+                }
                 }>
                     Modificar
-                </button> */}
+                </button>
              </>
             
             ) : null} 
