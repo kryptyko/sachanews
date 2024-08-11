@@ -9,10 +9,13 @@ function ArticlesDeploy(onDelete) {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
-    const { token, user__id } = useAuth("state");
+    const authState = useAuth("state");
+    const token = authState ? authState.token : null;
+    const user__id = authState ? authState.user__id : null;
+    // const { token, user__id } = useAuth("state");
 
     useEffect(() => {
-        // Fetch artículos
+        // Fetch del artículo
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
             .then((response) => {
                 if (!response.ok) {
@@ -22,21 +25,23 @@ function ArticlesDeploy(onDelete) {
             })
             .then((data) => {
                 setArticle(data);
-                // obtener autor
-                return fetch(`${import.meta.env.VITE_API_BASE_URL}users/profiles/${data.author}/`, {
-                    headers: {
-                        Authorization: `Token ${token}`,
-                    },
-                });
-            })
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error("No se pudieron cargar los datos del autor");
+                // Obtener detalles del autor solo si hay un token
+                if (token) {
+                    return fetch(`${import.meta.env.VITE_API_BASE_URL}users/profiles/${data.author}/`, {
+                        headers: {
+                            Authorization: `Token ${token}`,
+                        },
+                    })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error("No se pudieron cargar los datos del autor");
+                        }
+                        return response.json();
+                    })
+                    .then((authorData) => {
+                        setAuthorDetails(authorData);
+                    });
                 }
-                return response.json();
-            })
-            .then((authorData) => {
-                setAuthorDetails(authorData);
             })
             .catch(() => {
                 setIsError(true);
@@ -44,7 +49,7 @@ function ArticlesDeploy(onDelete) {
             .finally(() => {
                 setIsLoading(false);
             });
-    }, [id]);
+    }, [id, token]);
 
     if (isLoading) {
         return <p>Cargando...</p>;
@@ -79,8 +84,7 @@ function ArticlesDeploy(onDelete) {
         hour: 'numeric',
         minute: 'numeric',
     });
-    console.log(`Autor: ${article.author}`)
-    console.log(`Usuario: ${user__id}`)
+
     return (
         <div className="container my-6">
             <div className="box">
@@ -94,7 +98,6 @@ function ArticlesDeploy(onDelete) {
                         {authorDetails && (
                             <div className="level-item">
                                 <p>{`Autor: ${authorDetails.first_name} ${authorDetails.last_name}`}</p>
-                                
                             </div>
                         )}
                     </div>
@@ -117,7 +120,7 @@ function ArticlesDeploy(onDelete) {
                     </div>
                 </div>
                 
-                {article.author == user__id ? (
+                {token && article.author === user__id && (
                     <>
                         <button className="button is-success" onClick={(e) => {
                             e.preventDefault();
@@ -135,11 +138,10 @@ function ArticlesDeploy(onDelete) {
                             Modificar
                         </button>
                     </>
-                ) : null} 
+                )}
             </div>
         </div>
     );
 }
 
 export default ArticlesDeploy;
-
