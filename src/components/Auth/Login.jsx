@@ -10,7 +10,7 @@ function Login() {
 
     const { login } = useAuth("actions");
 
-   
+
     function handleSubmit(event) {
         event.preventDefault();
         if (!isLoading) {
@@ -55,7 +55,7 @@ function Login() {
                             })
                             .then((profileData) =>{
                                 console.log(`User ${profileData.first_name}`);
-                                login(responseData.token, profileData.user__id,profileData.first_name);
+                                login(responseData.token, profileData.user__id,profileData.first_name,profileData.image);
                     })
                             .catch((error) => {
                                 console.error(
