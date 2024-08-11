@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import Navbar from './Navbar/Navbar';
 import Banner from './Banner/Banner';
+import { useNavigate } from "react-router-dom";
 
 export default function ArticleForm() {
     const [articleData, setArticleData] = useState({ title: "", content: "" });
@@ -10,6 +11,8 @@ export default function ArticleForm() {
     const [loadingCategories, setLoadingCategories] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [articleImage, setArticleImage] = useState(null);
+
+    const navigate = useNavigate();
 
     const state = useAuth("state");
     const token = state.token;
@@ -107,6 +110,8 @@ export default function ArticleForm() {
                             }
                         );
                     });
+                    window.alert('Artículo generado exitosamente!');
+                    navigate("/articles");
                 })
                 .catch((error) => {
                     console.error("Error error al crear el artículo", error);
@@ -114,7 +119,7 @@ export default function ArticleForm() {
                 .finally(() => {
                     return setSubmitting(false);
                 });
-                window.alert('¡Artículo generado exitosamente!');
+               
         }
     }
 
@@ -183,7 +188,7 @@ export default function ArticleForm() {
                         className="button is-primary"
                         type="submit"
                         disabled={submitting || loadingCategories}
-                    >
+                        >
                         Crear Artículo
                     </button>
                 </div>
