@@ -1,0 +1,19 @@
+.fixed-banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Asegúrate de que esté encima del contenido */
+}
+
+.fixed-navbar {
+    position: fixed;
+    top: 60px; /* Ajusta esto según la altura de tu Banner */
+    left: 0;
+    width: 100%;
+    z-index: 999; /* Debe estar debajo del Banner */
+}
+
+.content-with-fixed-header {
+    margin-top: 120px; /* Ajusta esto según la altura combinada del Banner y la Navbar */
+}
