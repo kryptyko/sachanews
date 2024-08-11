@@ -120,7 +120,7 @@ function ArticlesDeploy(onDelete) {
                     </div>
                 </div>
                 
-                {token && article.author === user__id && (
+                {token && article.author == user__id && (
                     <>
                         <button className="button is-success" onClick={(e) => {
                             e.preventDefault();
