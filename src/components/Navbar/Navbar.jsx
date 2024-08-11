@@ -52,6 +52,8 @@ export default function Navbar() {
                   isAuthenticated
                     ? () => {
                       logout();
+                      window.alert ("Sesion cerrada correctamente")
+                      
                     }
                     : () => {
                       navigate("/login");
