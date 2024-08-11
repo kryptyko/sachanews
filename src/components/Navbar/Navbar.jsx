@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom';
 export default function Navbar() {
     const [categories, setCategories] = useState([]);
     const { isAuthenticated} = useAuth("state");
-    const { logout } = useAuth("actions");
-    const navigate = useNavigate();
+    // const { logout } = useAuth("actions");
+    // const navigate = useNavigate();
 
     useEffect(() => {
         const fetchCategories = async () => {
             try {
-                const response = await fetch("https://sandbox.academiadevelopers.com/infosphere/categories/");
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/categories/`);
                 const data = await response.json();
                 setCategories(data.results);
             } catch (error) {

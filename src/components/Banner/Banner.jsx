@@ -40,11 +40,24 @@ const Banner = () => {
                               
                                </div>
                               )}
-                        <button className="button is-warning is-small is-outlined"onClick={() => {
+                        {/* <button className="button is-warning is-small is-outlined"onClick={() => {
                                 isAuthenticated ? logout() : navigate('/login');
                                 window.alert(isAuthenticated ? 'Sesión cerrada correctamente' : '');}}>
                           {isAuthenticated ? 'Cerrar sesión' : 'Iniciar Sesión'}
-                        </button>
+                        </button> */}
+                        <button
+  className="button is-warning is-small is-outlined"
+  onClick={() => {
+    if (isAuthenticated) {
+      logout();
+      window.alert('Sesión cerrada correctamente');
+    } else {
+      navigate('/login');
+    }
+  }}
+>
+  {isAuthenticated ? 'Cerrar sesión' : 'Iniciar Sesión'}
+</button>
           </div> {/*fin columna3*/}
         </div>
       </div>
