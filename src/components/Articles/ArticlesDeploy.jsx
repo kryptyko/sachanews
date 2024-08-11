@@ -1,23 +1,18 @@
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-// import Navbar from '../Navbar/Navbar';
-// import Banner from '../Banner/Banner';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import { Margin } from '@mui/icons-material';
-
 
 function ArticlesDeploy(onDelete) {
     const { id } = useParams();
     const [article, setArticle] = useState(null);
+    const [authorDetails, setAuthorDetails] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
     const navigate = useNavigate();
-    const state = useAuth("state");
-    const token = state.token;
-    
+    const { token, user__id } = useAuth("state");
 
     useEffect(() => {
+        // Fetch artículos
         fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/${id}/`)
             .then((response) => {
                 if (!response.ok) {
@@ -26,7 +21,22 @@ function ArticlesDeploy(onDelete) {
                 return response.json();
             })
             .then((data) => {
-                setArticle(data);                          
+                setArticle(data);
+                // obtener autor
+                return fetch(`${import.meta.env.VITE_API_BASE_URL}users/profiles/${data.author}/`, {
+                    headers: {
+                        Authorization: `Token ${token}`,
+                    },
+                });
+            })
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("No se pudieron cargar los datos del autor");
+                }
+                return response.json();
+            })
+            .then((authorData) => {
+                setAuthorDetails(authorData);
             })
             .catch(() => {
                 setIsError(true);
@@ -50,11 +60,10 @@ function ArticlesDeploy(onDelete) {
             headers: {
                 Authorization: `Token ${token}`,
             },
-        
         })
         .then((response) => {
             if (!response.ok) {
-                throw new Error("No se pudo eliminar el Artículo")
+                throw new Error("No se pudo eliminar el Artículo");
             }
             onDelete(article.id);
         })
@@ -63,97 +72,74 @@ function ArticlesDeploy(onDelete) {
         });
     };
 
-//     return (
-//         <div>
-//             <Banner/>
-//             <Navbar/>
-//             <h1>{article.title}</h1>
-//             <p>Fecha de creación: {article.created_at}</p>
-//             <p>Fecha de actualización: {article.updated_at}</p>
-//             <p>{article.content}</p>
-//             {article.image && <img src={article.image} alt={article.caption} />}
-//             <p>Autor: {article.author}</p>
-//             <p>Visitas: {article.view_count}</p>
-//             {/* ver como agregamos la info de las tablas relaciionadas */}
-//         </div>
-//     );
-// }
-
-// export default ArticlesDeploy;
-
-// formatear la fecha y hora que devuelve {article.updated_at}
-const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
-    day: 'numeric',
-    month: 'long',
-    year: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-});  
-   
-return (
-    <div className="container my-6">
-        {/* <Banner/>
-        <Navbar/> */}
-        <div className="box">
-        <h1 className="title">{article.title}</h1>
-            
-            
-            <p className="subtitle is-6 mb-4">{article.abstract}</p>
-            <div className="level">
-                <div className="level-left">
-                    <p className="level-item">Actualizado: {formattedDate}</p>
+    const formattedDate = new Date(article.updated_at).toLocaleString('es-ES', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+    });
+    console.log(`Autor: ${article.author}`)
+    console.log(`Usuario: ${user__id}`)
+    return (
+        <div className="container my-6">
+            <div className="box">
+                <h1 className="title">{article.title}</h1>
+                <p className="subtitle is-6 mb-4">{article.abstract}</p>
+                <div className="level">
+                    <div className="level-left">
+                        <p className="level-item">Actualizado: {formattedDate}</p>
+                    </div>
+                    <div className="level-right">
+                        {authorDetails && (
+                            <div className="level-item">
+                                <p>{`Autor: ${authorDetails.first_name} ${authorDetails.last_name}`}</p>
+                                
+                            </div>
+                        )}
+                    </div>
                 </div>
-                <div className="level-right">
-                    <p className="level-item">Autor: {article.author}</p>
+                {article.image && <img src={article.image} alt={article.caption} className="mb-4" />}
+                <div className="content">
+                    {article.content}
                 </div>
-            </div>
-            {article.image && <img src={article.image} alt={article.caption} className="mb-4" />}
-            <div className="content">
-                {article.content}
-            </div>
-            {article.image && <p className="has-text-grey-light has-text-right">{article.caption}</p>} {/*si no tiene imagen no rendirza el article.caption */}
-            <div className="level">
-                <div className="level-right">
-                    <p className="level-item">
-                        <span className="icon-text">
-                            <span className="icon">
-                                <i className="fas fa-eye"></i>
+                {article.image && <p className="has-text-grey-light has-text-right">{article.caption}</p>}
+                <div className="level">
+                    <div className="level-right">
+                        <p className="level-item">
+                            <span className="icon-text">
+                                <span className="icon">
+                                    <i className="fas fa-eye"></i>
+                                </span>
+                                <span>Visitas: {article.view_count}</span>
                             </span>
-                            <span>Visitas: {article.view_count}</span>
-                        </span>
-                    </p>
+                        </p>
+                    </div>
                 </div>
+                
+                {article.author == user__id ? (
+                    <>
+                        <button className="button is-success" onClick={(e) => {
+                            e.preventDefault();
+                            handleDelete();
+                            window.alert('Artículo eliminado');
+                            navigate("/articles");
+                        }} style={{ marginRight: '20px' }}>
+                            Eliminar
+                        </button>
+                        
+                        <button className="button is-success" onClick={(e) => {
+                            e.preventDefault();
+                            navigate(`/articles/change/${article.id}`);
+                        }}>
+                            Modificar
+                        </button>
+                    </>
+                ) : null} 
             </div>
-            
-            {article.author == state.user__id ? (
-                <>
-                <button className="button is-success" onClick={(e) => {
-                    e.preventDefault();
-                    handleDelete();
-                    window.alert('Artículo eliminado');
-                    navigate("/articles");
-                }} style={{marginRight: '20px'}}>
-                    Eliminar
-                </button>
-                    
-                <button className="button is-success" onClick={(e) => {
-                    e.preventDefault();
-                    
-                    navigate(`/articles/change/${article.id}`);
-                }
-                }>
-                    Modificar
-                </button>
-             </>
-            
-            ) : null} 
-            
         </div>
-        
-    </div>
- 
-);
-
+    );
 }
 
 export default ArticlesDeploy;
+
