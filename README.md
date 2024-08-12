@@ -17,7 +17,7 @@ SachaNews es una aplicación web de noticias que permite a los usuarios leer, pu
 - **Navegación y Layout**: La aplicación utiliza un sistema de enrutamiento definido en `Router` para manejar la navegación entre diferentes vistas y componentes. El layout general de la aplicación incluye un `Banner` para la cabecera y un `Footer` para el pie de página, proporcionando una experiencia de usuario coherente a través de la aplicación.
 
 ## Componentes Principales
-
+- **Navbar**: Este componente se muestra en casi todas las pantallas, muestar el boton Añadir articulo en forma condicional (solo si el usuario esta logueado)
 - **Login**: Maneja el inicio de sesión de los usuarios.
 - **ArticleList**: Muestra una lista de artículos disponibles.
 - **ArticleForm**: Permite a los usuarios crear nuevos artículos.
@@ -25,6 +25,6 @@ SachaNews es una aplicación web de noticias que permite a los usuarios leer, pu
 - **CategoryArticles**: Lista artículos por categoría.
 - **Profile**: Muestra la información del perfil del usuario.
 - **ArticlesDeploy**: Despliega los detalles de un artículo específico, con opciones para editar o eliminar si el usuario es el autor.
-- **Banner y Footer**: Proporcionan elementos de navegación y layout consistentes en la aplicación.
+- **Banner y Footer**: Proporcionan elementos de navegación y layout consistentes en la aplicación.En el componente Banner 
 
 Este flujo de trabajo y los componentes principales facilitan una experiencia de usuario rica y dinámica, permitiendo a los usuarios interactuar con el contenido de noticias de manera efectiva.
