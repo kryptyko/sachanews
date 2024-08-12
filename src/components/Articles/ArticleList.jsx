@@ -1,8 +1,4 @@
-
-
 import { useEffect, useState } from 'react';
-// import Navbar from '../Navbar/Navbar';
-// import Banner from '../Banner/Banner';
 import ArticlesCard from './ArticleCard';
 
 const ArticleList = () => {
@@ -12,11 +8,12 @@ const ArticleList = () => {
     const [page, setPage] = useState(1);
     const [pageSize, setPageSize] = useState(9);
     const [totalPages, setTotalPages] = useState(0);
+    const [ordering, setOrdering] = useState('-view_count');
 
     useEffect(() => {
         const fetchArticles = async () => {
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/?ordering=-view_count&page=${page}&page_size=${pageSize}`);
+                const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}infosphere/articles/?ordering=${ordering}&page=${page}&page_size=${pageSize}`);
                 if (!response.ok) {
                     const errorMessage = `Error ${response.status}: ${response.statusText}`;
                     throw new Error(errorMessage);
@@ -37,7 +34,7 @@ const ArticleList = () => {
         } else {
             setError('Página o tamaño de página inválidos');
         }
-    }, [page, pageSize]);
+    }, [page, pageSize, ordering]);
 
     const handlePageChange = (newPage) => {
         setPage(newPage);
@@ -48,13 +45,29 @@ const ArticleList = () => {
         setPage(1);
     };
 
+    const handleOrderingChange = (newOrdering) => {
+        setOrdering(newOrdering);
+        setPage(1);
+    };
+
     if (loading) return <p>Cargando artículos...</p>;
     if (error) return <p>Error al cargar los artículos: {error}</p>;
 
     return (
         <div className="container">
-            {/* <Banner />
-            <Navbar /> */}
+            <div className="select">
+                    <select
+                        value={ordering}
+                        onChange={(e) => handleOrderingChange(e.target.value)}
+                    >
+                        <option value="created_at">Fecha de creación (ascendente)</option>
+                        <option value="-created_at">Fecha de creación (descendente)</option>
+                        <option value="updated_at">Fecha de actualización (ascendente)</option>
+                        <option value="-updated_at">Fecha de actualización (descendente)</option>
+                        <option value="view_count">Vistas (ascendente)</option>
+                        <option value="-view_count">Vistas (descendente)</option>
+                    </select>
+                </div>
             <div className="columns is-multiline">
                 {articles.map((article) => (
                     <div className="column is-4" key={article.id}>
@@ -76,6 +89,7 @@ const ArticleList = () => {
                     </select>
                 </div>
                 <span>noticias por página</span>
+                
                 <div className="page-controls">
                     <button
                         className={`button ${page === 1 ? 'is-disabled' : ''}`}
